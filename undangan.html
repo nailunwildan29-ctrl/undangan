@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wedding of Messi & Antonella</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* VARIABEL & DASAR */
+        :root {
+            --color-primary: #1E3F30; /* Deep Forest Green */
+            --color-secondary: #C0A16B; /* Gold */
+            --color-text: #333333;
+            --color-light: #F9F7F3;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Poppins', sans-serif;
+            --transition-speed: 0.5s;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-sans);
+            color: var(--color-text);
+            background-color: var(--color-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .serif-text { font-family: var(--font-serif); color: var(--color-primary); }
+        .text-center { text-align: center; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 60px 0; }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--color-secondary);
+            color: var(--color-light);
+            border: none;
+            text-transform: uppercase;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+        .btn:hover { background-color: var(--color-primary); transform: translateY(-2px); }
+        .btn-outline { background-color: transparent; color: var(--color-secondary); border: 2px solid var(--color-secondary); }
+
+        /* 1. COVER */
+        #cover {
+            height: 100vh;
+            background: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop') center center/cover no-repeat;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            z-index: 100;
+            transition: transform 1s ease-out;
+        }
+        .cover-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+        .cover-content { z-index: 2; padding: 20px; }
+        .cover-content h1 { font-size: 3.5rem; color: white; margin: 10px 0; }
+
+        /* 2. NAVBAR */
+        .navbar {
+            position: sticky; top: 0; width: 100%; background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 90; display: none; padding: 10px 0;
+        }
+        .navbar-content { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .navbar-content a { text-decoration: none; color: var(--color-primary); font-size: 0.8rem; text-transform: uppercase; font-weight: 600; }
+
+        /* 3. COUPLE SECTION */
+        .photo-frame {
+            width: 220px; height: 300px; margin: 0 auto 20px;
+            border: 8px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 110px 110px 0 0; overflow: hidden;
+        }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+        .couple-flex { display: flex; justify-content: center; align-items: center; gap: 50px; flex-wrap: wrap; margin-top: 40px; }
+        .mempelai-item { flex: 1; min-width: 300px; }
+
+        /* 4. EVENTS */
+        #events { background: #f0f0f0; }
+        .event-grid { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; margin-top: 40px; }
+        .event-card { background: white; padding: 40px; border-radius: 10px; flex: 1; min-width: 320px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
+        /* 5. COUNTDOWN */
+        #countdown-section { background: var(--color-primary); color: white; }
+        .countdown-timer { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
+        .time-box { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; min-width: 80px; }
+        .time-box span { display: block; font-size: 2rem; font-weight: 700; color: var(--color-secondary); }
+
+        /* 6. GALLERY */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-top: 40px; }
+        .gallery-item { height: 300px; border-radius: 8px; overflow: hidden; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .gallery-item:hover img { transform: scale(1.1); }
+
+        /* 7. RSVP & GIFTS */
+        #rsvp-form { max-width: 600px; margin: 40px auto; background: white; padding: 30px; border-radius: 10px; border: 1px solid #ddd; }
+        #rsvp-form input, #rsvp-form select, #rsvp-form textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        
+        .bank-card { background: white; padding: 20px; border-radius: 10px; max-width: 500px; margin: 20px auto; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .bank-info { background: var(--color-primary); color: white; padding: 15px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+
+        /* MUSIC & ANIMATION */
+        #music-player { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+        #music-btn { width: 50px; height: 50px; border-radius: 50%; border: none; background: var(--color-secondary); color: white; cursor: pointer; font-size: 1.2rem; }
+        
+        .fade-in { opacity: 0; transform: translateY(30px); transition: 1s ease-out; }
+        .visible { opacity: 1; transform: translateY(0); }
+        #main-content { display: none; opacity: 0; transition: 1s opacity; }
+
+        @media (max-width: 768px) {
+            .cover-content h1 { font-size: 2.5rem; }
+            .couple-flex { gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cover">
+        <div class="cover-overlay"></div>
+        <div class="cover-content">
+            <p class="serif-text" style="font-size: 1.5rem;">The Wedding of</p>
+            <h1>Messi & Antonella</h1>
+            <h2 style="color: var(--color-secondary); font-weight: 400; margin-bottom: 20px;">"A New Beginning"</h2>
+            <p style="margin-bottom: 30px;">Minggu, 24 Mei 2026</p>
+            <button class="btn" id="open-btn">Buka Undangan</button>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <nav class="navbar" id="sticky-nav">
+            <div class="navbar-content">
+                <a href="#couple">Mempelai</a>
+                <a href="#events">Acara</a>
+                <a href="#gallery">Galeri</a>
+                <a href="#rsvp">RSVP</a>
+                <a href="#gifts">Hadiah</a>
+            </div>
+        </nav>
+
+        <section id="couple" class="container text-center fade-in">
+            <h2 style="font-size: 2.5rem; margin-bottom: 10px;">Sang Mempelai</h2>
+            <p style="font-style: italic; max-width: 700px; margin: 0 auto 40px;">"Cinta tidak terlihat dengan mata, tetapi dengan hati."</p>
+            
+            <div class="couple-flex">
+                <div class="mempelai-item">
+                    <div class="photo-frame">
+                        <img src="https://wallpapers.com/images/featured/messi-in-a-suit-zncmdw5vma7ixwre.jpg" alt="Raka">
+                    </div>
+                    <h3>Lionel Messi</h3>
+                    <p>Putra dari Bapak Budi Santoso <br> & Ibu Ratna Dewi</p>
+                </div>
+
+                <div class="serif-text" style="font-size: 3rem; color: var(--color-secondary);">&</div>
+
+                <div class="mempelai-item">
+                    <div class="photo-frame">
+                        <img src="https://image.popbela.com/post/20210810/64444849-2273928469525474-7155089844980056222-n-4d000e853b0e007574bc701c24e8cc96.jpg" alt="Indah">
+                    </div>
+                    <h3>Antonella Racuzzo</h3>
+                    <p>Putri dari Bapak Heru Gunawan <br> & Ibu Siti Aminah</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="events" class="container text-center fade-in">
+            <h2 style="margin-bottom: 40px;">Waktu & Tempat</h2>
+            <div class="event-grid">
+                <div class="event-card">
+                    <h3 style="color: var(--color-secondary);">Akad Nikah</h3>
+                    <p>Minggu, 24 Mei 2026</p>
+                    <p>08.00 - 10.00 WIB</p>
+                    <hr style="margin: 15px 0; opacity: 0.2;">
+                    <strong>Masjid Raya Al-Ikhlas</strong>
+                    <p>Jl. Jend. Sudirman Kav. 55, Jakarta</p>
+                    <br>
+                    <a href="https://maps.google.com" target="_blank" class="btn btn-outline">Buka Maps</a>
+                </div>
+                <div class="event-card">
+                    <h3 style="color: var(--color-secondary);">Resepsi</h3>
+                    <p>Minggu, 24 Mei 2026</p>
+                    <p>11.00 - 15.00 WIB</p>
+                    <hr style="margin: 15px 0; opacity: 0.2;">
+                    <strong>Balai Kartini, Ruang Birawa</strong>
+                    <p>Jl. Gatot Subroto No. Kav. 37, Jakarta</p>
+                    <br>
+                    <a href="https://maps.google.com" target="_blank" class="btn btn-outline">Buka Maps</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="countdown-section" class="container text-center fade-in">
+            <h3>Menghitung Hari</h3>
+            <div class="countdown-timer" id="timer">
+                <div class="time-box"><span id="days">00</span><small>Hari</small></div>
+                <div class="time-box"><span id="hours">00</span><small>Jam</small></div>
+                <div class="time-box"><span id="mins">00</span><small>Menit</small></div>
+                <div class="time-box"><span id="secs">00</span><small>Detik</small></div>
+            </div>
+        </section>
+
+        <section id="gallery" class="container text-center fade-in">
+            <h2 style="margin-bottom: 10px;">Galeri Foto</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069&auto=format&fit=crop"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1974&auto=format&fit=crop"></div>
+                <div class="gallery-item"><img src="https://weddingmarket.com/storage/images/artikelidea/b36d3ad5d749af497877122248d2b1d4a901f2ec.webp"></div>
+                <div class="gallery-item"><img src="https://akcdn.detik.net.id/visual/2017/07/01/96628164-e0e7-4288-aaa4-43a91511aa39_169.jpg?w=400&q=90"></div>
+            </div>
+        </section>
+
+        <section id="rsvp" class="container text-center fade-in">
+            <h2>Konfirmasi Kehadiran</h2>
+            <form id="rsvp-form">
+                <input type="text" id="rsvp-name" placeholder="Nama Lengkap" required>
+                <select id="rsvp-status">
+                    <option value="hadir">Akan Hadir</option>
+                    <option value="tidak">Maaf, Tidak Bisa Hadir</option>
+                </select>
+                <input type="number" id="rsvp-guests" placeholder="Jumlah Tamu" min="1" value="1">
+                <textarea id="rsvp-msg" rows="4" placeholder="Ucapan & Doa"></textarea>
+                <button type="submit" class="btn">Kirim Konfirmasi</button>
+                <p id="rsvp-thanks" style="display:none; margin-top:15px; color:green;">Terima kasih! Pesan Anda telah tersimpan.</p>
+            </form>
+        </section>
+
+        <section id="gifts" class="container text-center fade-in">
+            <h2>Kado Digital</h2>
+            <p>Doa restu Anda sudah lebih dari cukup, namun bagi yang ingin memberi lebih:</p>
+            <div class="bank-card">
+                <strong>Bank BCA</strong>
+                <div class="bank-info">
+                    <span id="acc-number">1234567890</span>
+                    <button onclick="copyAcc()" class="btn btn-outline" style="padding: 5px 10px; font-size: 0.7rem; color:white; border-color:white;">SALIN</button>
+                </div>
+                <p style="font-size: 0.9rem; margin-top: 5px;">a/n Lionel Messi</p>
+            </div>
+        </section>
+
+        <footer class="container text-center fade-in">
+            <h1 class="serif-text">Sampai Jumpa!</h1>
+            <p>Messi & Antonella</p>
+        </footer>
+    </div>
+
+    <div id="music-player">
+        <audio id="bg-music" loop>
+            <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
+        </audio>
+        <button id="music-btn">▶</button>
+    </div>
+
+    <script>
+        // 1. OPEN INVITATION
+        const openBtn = document.getElementById('open-btn');
+        const cover = document.getElementById('cover');
+        const main = document.getElementById('main-content');
+        const music = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-btn');
+
+        openBtn.onclick = () => {
+            cover.style.transform = 'translateY(-100%)';
+            setTimeout(() => {
+                cover.style.display = 'none';
+                main.style.display = 'block';
+                document.getElementById('sticky-nav').style.display = 'block';
+                setTimeout(() => {
+                    main.style.opacity = '1';
+                    music.play();
+                    musicBtn.innerHTML = '⏸';
+                    // Mulai animasi scroll
+                    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+                }, 50);
+            }, 800);
+        };
+
+        // 2. MUSIC TOGGLE
+        musicBtn.onclick = () => {
+            if (music.paused) { music.play(); musicBtn.innerHTML = '⏸'; }
+            else { music.pause(); musicBtn.innerHTML = '▶'; }
+        };
+
+        // 3. COUNTDOWN
+        const target = new Date("May 24, 2026 08:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = target - now;
+            document.getElementById('days').innerText = Math.floor(diff / (1000*60*60*24));
+            document.getElementById('hours').innerText = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+            document.getElementById('mins').innerText = Math.floor((diff % (1000*60*60)) / (1000*60));
+            document.getElementById('secs').innerText = Math.floor((diff % (1000*60)) / 1000);
+        }, 1000);
+
+        // 4. RSVP SIMULATION
+        document.getElementById('rsvp-form').onsubmit = (e) => {
+            e.preventDefault();
+            document.getElementById('rsvp-thanks').style.display = 'block';
+            e.target.reset();
+        };
+
+        // 5. COPY ACCOUNT
+        function copyAcc() {
+            const num = document.getElementById('acc-number').innerText;
+            navigator.clipboard.writeText(num);
+            alert("Nomor rekening disalin!");
+        }
+
+        // 6. SCROLL OBSERVER
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+    </script>
+</body>
+</html>
